@@ -21,4 +21,6 @@ def run_game():
 
         pygame.display.flip() #refreshing window
 
+    #TODO ADDING THE SHIP IMAGE
+
 run_game()
