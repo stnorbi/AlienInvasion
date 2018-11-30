@@ -1,8 +1,9 @@
 import sys
 import pygame
 from pygame.locals import RESIZABLE
-from modules import settings
+from modules import settings, functions
 from characters import ship
+
 
 
 def run_game():
@@ -18,16 +19,9 @@ def run_game():
     # main loop
     while True:
 
-        for event in pygame.event.get(): #event loop
-            if event.type==pygame.QUIT:
-                sys.exit()
-
-        player_ship.blitme()
-
-        screen.fill(ai_settings.bg_color) #fill the background by the selected colour
-
-
-        pygame.display.flip() #refreshing window
+        functions.event_checker(player_ship)
+        player_ship.movement()
+        functions.update_screen(ai_settings,screen,player_ship)
 
 
 run_game()
