@@ -1,11 +1,15 @@
 import pygame
+import os
+
+ICONPATH=os.path.dirname(__file__).replace('characters','Icons') + "/"
+
 
 class Ship():
     def __init__(self,screen):
         # set up the ship and its position
         self.screen=screen
 
-        self.image=pygame.image.load("icons/ship.bmp")
+        self.image=pygame.image.load(ICONPATH + 'ship.bmp')
         self.rect=self.image.get_rect() #rectangle of the ship
         self.screen_rect=screen.get_rect() #rectangel of the screen
 
