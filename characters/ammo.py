@@ -7,8 +7,7 @@ class Bullet(Sprite):
         self.screen=screen
 
         #set the place of the bullet
-        self.rect=pygame.Rect(0,0,ai_settings.bullet_w,
-                              ai_settings.bullet_h)
+        self.rect=pygame.Rect(0,0,ai_settings.bullet_w, ai_settings.bullet_h)
         self.rect.centerx=ship.rect.centerx
         self.rect.top=ship.rect.top
 

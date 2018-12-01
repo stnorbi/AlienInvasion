@@ -1,6 +1,6 @@
 import pygame
 import sys
-from characters import bull
+from characters import ammo
 
 def get_keydown_events(event,ai_settings, screen,ship,bullets):
 
@@ -11,7 +11,7 @@ def get_keydown_events(event,ai_settings, screen,ship,bullets):
         ship.move_left=True
 
     elif event.key == pygame.K_SPACE:
-        new_bullet = bull.Bullet(ai_settings, screen, ship)
+        new_bullet = ammo.Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
 
 def get_keyup_events(event,ship):
@@ -40,11 +40,12 @@ def event_checker(ai_settings,screen,ship, bullets):
 
 
 def update_screen(ai_settings,screen,ship, bullets):
-    screen.fill(ai_settings.bg_color)  # fill the background by the selected colour
-    pygame.display.update()  # refreshing window
+    pygame.display.update()  # refreshing window (before everything)
+
+    # fill the background by the selected colour. Use after screen update
+    screen.fill(ai_settings.bg_color)
 
     for bullet in bullets.sprites():
         bullet.setBullet()
 
     ship.blitme()
-

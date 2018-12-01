@@ -27,4 +27,5 @@ def run_game():
         functions.update_screen(ai_settings,screen,player_ship,bullets)
 
 
+
 run_game()
