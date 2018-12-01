@@ -3,6 +3,7 @@ import pygame
 from pygame.locals import RESIZABLE
 from modules import settings, functions
 from characters import ship
+from pygame.sprite import Group
 
 
 
@@ -15,13 +16,15 @@ def run_game():
 
     #Adding the ship to the screen
     player_ship=ship.Ship(ai_settings,screen)
+    bullets=Group()
 
     # main loop
     while True:
 
-        functions.event_checker(player_ship)
+        functions.event_checker(ai_settings,screen,player_ship,bullets)
         player_ship.movement()
-        functions.update_screen(ai_settings,screen,player_ship)
+        bullets.update()
+        functions.update_screen(ai_settings,screen,player_ship,bullets)
 
 
 run_game()
