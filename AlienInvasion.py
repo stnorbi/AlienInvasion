@@ -16,6 +16,7 @@ def run_game():
 
     #Adding the ship to the screen
     player_ship=ship.Ship(ai_settings,screen)
+    enemy=ship.Alien(ai_settings,screen)
     bullets=Group()
 
     # main loop
@@ -24,7 +25,7 @@ def run_game():
         functions.event_checker(ai_settings,screen,player_ship,bullets)
         player_ship.movement()
         functions.bullets_refresh(bullets)
-        functions.update_screen(ai_settings,screen,player_ship,bullets)
+        functions.update_screen(ai_settings,screen,player_ship,enemy,bullets)
 
 
 

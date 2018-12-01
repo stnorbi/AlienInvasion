@@ -13,6 +13,9 @@ def get_keydown_events(event,ai_settings, screen,ship,bullets):
     elif event.key == pygame.K_SPACE:
         bullet_firing(ai_settings,screen,ship,bullets)
 
+    elif event.key==pygame.K_q:
+        sys.exit()
+
 
 def get_keyup_events(event,ship):
 
@@ -43,7 +46,7 @@ def bullet_firing(ai_settings, screen, ship, bullets):
         bullets.add(new_bullet)
 
 
-def update_screen(ai_settings,screen,ship, bullets):
+def update_screen(ai_settings,screen,ship,alien, bullets):
     pygame.display.update()  # refreshing window (before everything)
 
     # fill the background by the selected colour. Use after screen update
@@ -53,6 +56,7 @@ def update_screen(ai_settings,screen,ship, bullets):
         bullet.setBullet()
 
     ship.blitme()
+    alien.blitme()
 
 def bullets_refresh(bullets):
     bullets.update()

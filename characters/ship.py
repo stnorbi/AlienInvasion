@@ -1,5 +1,6 @@
 import pygame
 import os
+from pygame.sprite import Sprite
 
 ICONPATH=os.path.dirname(__file__).replace('characters','icons') + "/"
 
@@ -10,7 +11,7 @@ class Ship():
         self.screen=screen
         self.ai_settings=ai_settings
 
-        self.image=pygame.image.load(ICONPATH + "ship.bmp").convert()
+        self.image=pygame.image.load(ICONPATH + "ship.bmp")
         self.rect=self.image.get_rect() #rectangle of the ship
         self.screen_rect=screen.get_rect() #rectangel of the screen
 
@@ -38,3 +39,21 @@ class Ship():
     def blitme(self):
         self.screen.blit(self.image,(self.rect[0],self.rect[1])) #makes the ship visible
 
+class Alien(Sprite):
+    """The class of an alien"""
+
+    def __init__(self,ai_settings,screen):
+        super(Alien,self).__init__()
+        self.screen=screen
+        self.ai_settings=ai_settings
+
+        self.image=pygame.image.load(ICONPATH + "alien.bmp")
+        self.rect=self.image.get_rect()
+
+        self.rect.x=self.rect.width
+        self.rect.y=self.rect.height
+
+        self.x=float(self.rect.x)
+
+    def blitme(self):
+        self.screen.blit(self.image,self.rect)
