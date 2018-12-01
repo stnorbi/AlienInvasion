@@ -11,8 +11,8 @@ def get_keydown_events(event,ai_settings, screen,ship,bullets):
         ship.move_left=True
 
     elif event.key == pygame.K_SPACE:
-        new_bullet = ammo.Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
+        bullet_firing(ai_settings,screen,ship,bullets)
+
 
 def get_keyup_events(event,ship):
 
@@ -37,6 +37,10 @@ def event_checker(ai_settings,screen,ship, bullets):
             get_keyup_events(event,ship)
 
 
+def bullet_firing(ai_settings, screen, ship, bullets):
+    if len(bullets) < ai_settings.bullets_nr:
+        new_bullet = ammo.Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
 
 
 def update_screen(ai_settings,screen,ship, bullets):
@@ -49,3 +53,11 @@ def update_screen(ai_settings,screen,ship, bullets):
         bullet.setBullet()
 
     ship.blitme()
+
+def bullets_refresh(bullets):
+    bullets.update()
+
+    # deleting the invisible bullets
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)

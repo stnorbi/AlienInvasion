@@ -23,7 +23,7 @@ def run_game():
 
         functions.event_checker(ai_settings,screen,player_ship,bullets)
         player_ship.movement()
-        bullets.update()
+        functions.bullets_refresh(bullets)
         functions.update_screen(ai_settings,screen,player_ship,bullets)
 
 

@@ -11,4 +11,6 @@ class Settings():
         self.bullet_w=3
         self.bullet_h=15
         self.bullet_c=60,60,60
+        self.bullets_nr=3
+
 
