@@ -1,6 +1,22 @@
 import pygame
 import sys
 from characters import ammo
+from characters.ship import Alien
+
+
+def create_fleet(ai_settings, screen,aliens):
+    """Setting up the fleet of the Aliens"""
+    alien=Alien(ai_settings,screen)
+    alien_width=alien.rect.width
+    available_sp_x=ai_settings.screen_width - 2 *alien_width
+    nr_aliens_x=int(available_sp_x / (2*alien_width))
+
+    for alien_nr in range(nr_aliens_x):
+        alien = Alien(ai_settings,screen)
+        alien.x=alien_width + 2 * alien_width * alien_nr
+        alien.rect.x=alien.x
+        aliens.add(alien)
+
 
 def get_keydown_events(event,ai_settings, screen,ship,bullets):
 
@@ -56,7 +72,9 @@ def update_screen(ai_settings,screen,ship,alien, bullets):
         bullet.setBullet()
 
     ship.blitme()
-    alien.blitme()
+    alien.draw(screen) #  draw is the attribute of Group. Group does not have "blit" method
+
+    pygame.display.flip()
 
 def bullets_refresh(bullets):
     bullets.update()
@@ -64,4 +82,4 @@ def bullets_refresh(bullets):
     # deleting the invisible bullets
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
-            bullets.remove(bullet)
+            bullets.remove(bullet) #Remove function is inherited from SpriteS
