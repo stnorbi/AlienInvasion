@@ -7,7 +7,7 @@ def change_fleet_direct(ai_settings,aliens):
     for alien in aliens.sprites():
         alien.rect.y += ai_settings.fleet_down_speed
 
-    ai_settings.fleet_direct += -1
+    ai_settings.fleet_direct *= -1
 
 
 def fleet_edge_checker(ai_settings,aliens):
@@ -17,11 +17,14 @@ def fleet_edge_checker(ai_settings,aliens):
             change_fleet_direct(ai_settings,aliens)
             break
 
-def update_aliens(ai_settings,aliens):
+def update_aliens(ai_settings,ship,aliens):
     """Position update for the alien fleet"""
 
     fleet_edge_checker(ai_settings,aliens)
     aliens.update()
+
+    if pygame.sprite.spritecollideany(ship,aliens):
+        print("Ship hit!!")
 
 
 def get_nr_rows(ai_settings,ship_height, alien_height):
@@ -121,11 +124,23 @@ def update_screen(ai_settings,screen,ship,alien, bullets):
 
     pygame.display.flip()
 
-def bullets_refresh(bullets):
+def bullets_refresh(ai_settings,screen,ship,aliens,bullets):
     """Assure the movement of the bullets"""
     bullets.update()
+
 
     # deleting the invisible bullets
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet) #Remove function is inherited from SpriteS
+
+    alien_bullet_collisions(ai_settings,screen,ship,aliens,bullets)
+
+
+def alien_bullet_collisions(ai_settings,screen,ship,aliens,bullets):
+    # Whenever the rect of a bullet and alien overlap, groupcollide() adds a key-value pair to the dictionary it returns.
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if len(aliens)==0:
+        bullets.empty()
+        create_fleet(ai_settings,screen,ship,aliens)
