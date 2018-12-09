@@ -30,7 +30,7 @@ def run_game():
         functions.event_checker(ai_settings,screen,player_ship,bullets)
         player_ship.movement()
         functions.bullets_refresh(bullets)
-        #functions.update_screen(ai_settings,screen,player_ship,enemy,bullets)
+        functions.update_aliens(ai_settings,aliens)
         functions.update_screen(ai_settings, screen, player_ship, aliens, bullets)
 
 

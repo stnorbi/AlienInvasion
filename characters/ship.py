@@ -55,5 +55,17 @@ class Alien(Sprite):
 
         self.x=float(self.rect.x)
 
+    def edge_checker(self):
+        screen_rect=self.screen.get_rect()
+        if self.rect.right >=screen_rect.right:
+            return True
+        elif self.rect.left <= 0:
+            return True
+
+    # it assures the movement of the alien fleet. "update" function is inherited from the "Sprite" class
+    def update(self):
+        self.x += (self.ai_settings.alien_speed * self.ai_settings.fleet_direct)
+        self.rect.x=self.x
+
     def blitme(self):
         self.screen.blit(self.image,self.rect)

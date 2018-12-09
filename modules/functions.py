@@ -3,17 +3,41 @@ import sys
 from characters import ammo
 from characters.ship import Alien
 
+def change_fleet_direct(ai_settings,aliens):
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_down_speed
+
+    ai_settings.fleet_direct += -1
+
+
+def fleet_edge_checker(ai_settings,aliens):
+
+    for alien in aliens.sprites():
+        if alien.edge_checker():
+            change_fleet_direct(ai_settings,aliens)
+            break
+
+def update_aliens(ai_settings,aliens):
+    """Position update for the alien fleet"""
+
+    fleet_edge_checker(ai_settings,aliens)
+    aliens.update()
+
+
 def get_nr_rows(ai_settings,ship_height, alien_height):
+    """Assure how many alien line is visible on the screen"""
     available_sp_y=ai_settings.screen_height - 3*alien_height - ship_height
     nr_rows=int(available_sp_y/(2*alien_height))
     return nr_rows
 
 def get_nr_aliens_x(ai_settings, alien_width):
+    """Number of aliens in a line"""
     available_sp_x=ai_settings.screen_width - 2*alien_width
     nr_aliens_x=int(available_sp_x/(2*alien_width))
     return nr_aliens_x
 
 def create_alien(ai_settings,screen,aliens,alien_nr, row_nr):
+    """Create an alien instance"""
     alien=Alien(ai_settings,screen)
     alien_width=alien.rect.width
     alien.x = alien_width + 2 * alien_width * alien_nr
@@ -32,8 +56,8 @@ def create_fleet(ai_settings, screen,ship,aliens):
             create_alien(ai_settings,screen,aliens,alien_nr,row_nr)
 
 
-
 def get_keydown_events(event,ai_settings, screen,ship,bullets):
+    """Check which button has been pressed"""
 
     if event.key==pygame.K_RIGHT:
         ship.move_right=True
@@ -49,6 +73,7 @@ def get_keydown_events(event,ai_settings, screen,ship,bullets):
 
 
 def get_keyup_events(event,ship):
+    """Check which button has been released"""
 
     if event.key==pygame.K_RIGHT:
         ship.move_right=False
@@ -58,6 +83,8 @@ def get_keyup_events(event,ship):
 
 
 def event_checker(ai_settings,screen,ship, bullets):
+    """Control the event of the buttons"""
+
     for event in pygame.event.get(): # event loop
 
         if event.type == pygame.QUIT:
@@ -72,12 +99,15 @@ def event_checker(ai_settings,screen,ship, bullets):
 
 
 def bullet_firing(ai_settings, screen, ship, bullets):
+    """Fire action from the player's ship"""
+
     if len(bullets) < ai_settings.bullets_nr:
         new_bullet = ammo.Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
 
 
 def update_screen(ai_settings,screen,ship,alien, bullets):
+    """General screen update"""
     pygame.display.update()  # refreshing window (before everything)
 
     # fill the background by the selected colour. Use after screen update
@@ -92,6 +122,7 @@ def update_screen(ai_settings,screen,ship,alien, bullets):
     pygame.display.flip()
 
 def bullets_refresh(bullets):
+    """Assure the movement of the bullets"""
     bullets.update()
 
     # deleting the invisible bullets
