@@ -9,6 +9,7 @@ class Settings():
 
         # Player ship settings
         self.ship_speed=1.5
+        self.ship_limit=3
 
         # Bullet settings
         self.bullet_speed=3
@@ -19,7 +20,7 @@ class Settings():
 
         # Alien settings
         self.alien_speed=1
-        self.fleet_down_speed=2
+        self.fleet_down_speed=10
         self.fleet_direct=1 # "1" indicates right; "-1" indicates left movement
 
 

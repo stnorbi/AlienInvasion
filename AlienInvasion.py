@@ -4,7 +4,7 @@ from pygame.locals import RESIZABLE
 from modules import settings, functions
 from characters import ship
 from pygame.sprite import Group
-
+from modules.gameStats import GameStats
 
 
 def run_game():
@@ -13,6 +13,8 @@ def run_game():
     ai_settings=settings.Settings()
     screen=pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_width),RESIZABLE) # set the resolution
     pygame.display.set_caption("Alien Invasion") #set the window title
+
+    stats=GameStats(ai_settings)
 
     #Adding the ship to the screen
     player_ship=ship.Ship(ai_settings,screen)
@@ -28,10 +30,12 @@ def run_game():
     while True:
 
         functions.event_checker(ai_settings,screen,player_ship,bullets)
-        player_ship.movement()
-        functions.bullets_refresh(ai_settings,screen,player_ship,aliens,bullets)
-        functions.update_aliens(ai_settings,player_ship,aliens)
-        functions.update_screen(ai_settings, screen, player_ship, aliens, bullets)
+
+        if stats.game_active:
+            player_ship.movement()
+            functions.bullets_refresh(ai_settings,screen,player_ship,aliens,bullets)
+            functions.update_aliens(ai_settings,stats,screen,player_ship,aliens,bullets)
+            functions.update_screen(ai_settings, screen, player_ship, aliens, bullets)
 
 
 

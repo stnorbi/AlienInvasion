@@ -2,6 +2,34 @@ import pygame
 import sys
 from characters import ammo
 from characters.ship import Alien
+from time import sleep
+
+
+def check_bottom_aliens(ai_settings,stats,screen,ship,aliens,bullets):
+    screen_rect=screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            ship_hit(ai_settings, stats,screen,ship, aliens, bullets)
+            break
+
+
+def ship_hit(ai_settings,stats,screen,ship,aliens,bullets):
+    """Ship death"""
+
+    if stats.ships_left>0:
+        stats.ships_left-=1
+
+    else:
+        stats.game_active=False
+
+    # Make the alien and bullets group empty
+    aliens.empty()
+    bullets.empty()
+
+    create_fleet(ai_settings,screen,ship,aliens)
+    ship.center_ship()
+
+    sleep(0.5)
 
 def change_fleet_direct(ai_settings,aliens):
     for alien in aliens.sprites():
@@ -17,14 +45,21 @@ def fleet_edge_checker(ai_settings,aliens):
             change_fleet_direct(ai_settings,aliens)
             break
 
-def update_aliens(ai_settings,ship,aliens):
+def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     """Position update for the alien fleet"""
 
     fleet_edge_checker(ai_settings,aliens)
     aliens.update()
 
+    check_bottom_aliens(ai_settings,stats,screen,ship,aliens,bullets)
+
+
+    # spritecollideany: The method looks for any member of the group that’s collided with
+    # the sprite and stops looping through the group as soon as it finds one mem-
+    # ber that has collided with the sprite.
+
     if pygame.sprite.spritecollideany(ship,aliens):
-        print("Ship hit!!")
+        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
 
 
 def get_nr_rows(ai_settings,ship_height, alien_height):

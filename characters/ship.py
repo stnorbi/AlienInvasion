@@ -26,6 +26,8 @@ class Ship():
         self.move_right=False
         self.move_left=False
 
+    def center_ship(self):
+        self.center=self.screen_rect.centerx
 
     def movement(self):
 
