@@ -4,18 +4,25 @@ from characters import ammo
 from characters.ship import Alien
 
 
+def get_nr_aliens_x(ai_settings, alien_width):
+    available_sp_x=ai_settings.screen_width - 2*alien_width
+    nr_aliens_x=int(available_sp_x/(2*alien_width))
+    return nr_aliens_x
+
+def create_alien(ai_settings,screen,aliens,alien_nr):
+    alien=Alien(ai_settings,screen)
+    alien_width=alien.rect.width
+    alien.x = alien_width + 2 * alien_width * alien_nr
+    alien.rect.x = alien.x
+    aliens.add(alien)
+
 def create_fleet(ai_settings, screen,aliens):
     """Setting up the fleet of the Aliens"""
     alien=Alien(ai_settings,screen)
-    alien_width=alien.rect.width
-    available_sp_x=ai_settings.screen_width - 2 *alien_width
-    nr_aliens_x=int(available_sp_x / (2*alien_width))
+    nr_aliens_x=get_nr_aliens_x(ai_settings,alien.rect.width)
 
     for alien_nr in range(nr_aliens_x):
-        alien = Alien(ai_settings,screen)
-        alien.x=alien_width + 2 * alien_width * alien_nr
-        alien.rect.x=alien.x
-        aliens.add(alien)
+        create_alien(ai_settings,screen,aliens,alien_nr)
 
 
 def get_keydown_events(event,ai_settings, screen,ship,bullets):
