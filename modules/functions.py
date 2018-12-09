@@ -3,26 +3,34 @@ import sys
 from characters import ammo
 from characters.ship import Alien
 
+def get_nr_rows(ai_settings,ship_height, alien_height):
+    available_sp_y=ai_settings.screen_height - 3*alien_height - ship_height
+    nr_rows=int(available_sp_y/(2*alien_height))
+    return nr_rows
 
 def get_nr_aliens_x(ai_settings, alien_width):
     available_sp_x=ai_settings.screen_width - 2*alien_width
     nr_aliens_x=int(available_sp_x/(2*alien_width))
     return nr_aliens_x
 
-def create_alien(ai_settings,screen,aliens,alien_nr):
+def create_alien(ai_settings,screen,aliens,alien_nr, row_nr):
     alien=Alien(ai_settings,screen)
     alien_width=alien.rect.width
     alien.x = alien_width + 2 * alien_width * alien_nr
     alien.rect.x = alien.x
+    alien.rect.y=alien.rect.height + 2*alien.rect.height * row_nr
     aliens.add(alien)
 
-def create_fleet(ai_settings, screen,aliens):
+def create_fleet(ai_settings, screen,ship,aliens):
     """Setting up the fleet of the Aliens"""
     alien=Alien(ai_settings,screen)
     nr_aliens_x=get_nr_aliens_x(ai_settings,alien.rect.width)
+    nr_rows=get_nr_rows(ai_settings,ship.rect.height,alien.rect.height)
 
-    for alien_nr in range(nr_aliens_x):
-        create_alien(ai_settings,screen,aliens,alien_nr)
+    for row_nr in range(nr_rows):
+        for alien_nr in range(nr_aliens_x):
+            create_alien(ai_settings,screen,aliens,alien_nr,row_nr)
+
 
 
 def get_keydown_events(event,ai_settings, screen,ship,bullets):

@@ -21,7 +21,7 @@ def run_game():
     aliens=Group()
 
     # make the fleet visible
-    functions.create_fleet(ai_settings, screen, aliens)
+    functions.create_fleet(ai_settings, screen,player_ship, aliens)
 
 
     # main loop
